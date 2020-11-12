@@ -1,21 +1,22 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { View } from 'react-native';
+import { } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import {Cities} from './pages';
+import { Cities, Stores, Restaurant } from './pages';
 
 const Stack = createStackNavigator();
 
 const Router = () => {
+
     return (
         <NavigationContainer>
             <Stack.Navigator
-                screenOptions={{ headerShown: false }}>
+                screenOptions={{ gestureEnabled:true, headerShown: false }}>
                 <Stack.Screen name="Cities" component={Cities} />
-                <Stack.Screen name="Stores" component={null} />
-                <Stack.Screen name="Restaurant" component={null} />
+                <Stack.Screen name="Stores" component={Stores} />
+                <Stack.Screen name="Restaurant" component={Restaurant} />
             </Stack.Navigator>
         </NavigationContainer>
     )
