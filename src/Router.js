@@ -13,7 +13,8 @@ const Router = () => {
     return (
         <NavigationContainer>
             <Stack.Navigator
-                screenOptions={{ gestureEnabled:true, headerShown: false }}>
+                initialRouteName='Cities'
+                screenOptions={{ gestureEnabled: true, headerShown: false }}>
                 <Stack.Screen name="Cities" component={Cities} />
                 <Stack.Screen name="Stores" component={Stores} />
                 <Stack.Screen name="Restaurant" component={Restaurant} />

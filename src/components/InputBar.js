@@ -23,7 +23,7 @@ const InputBar = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#ccc',
+        backgroundColor: '#eee',
         paddingHorizontal: 10,
         margin: 10,
         borderRadius: 10,

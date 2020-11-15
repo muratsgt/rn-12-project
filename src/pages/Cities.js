@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, TouchableOpacity, StyleSheet } from 'react-native';
 import axios from 'axios';
 
 import { InputBar } from '../components'
@@ -10,38 +10,61 @@ import { InputBar } from '../components'
 const Cities = ({navigation}) => {
 
     const [myData, setMyData] = useState([]);
-    const [filteredData, setFilteredData] = useState([]);
+    const [filteredCities, setFilteredCities] = useState([]);
+    const [cities, setCities] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
 
     // sample data
-    //{    
-    //     "userId": 1,
-    //     "id": 1,
-    //     "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-    //     "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
-    //},
+    // address: "29425 Chagrin Blvd"
+    // area: "Cleveland / Akron / Canton"
+    // city: "Pepper Pike"
+    // country: "US"
+    // id: 116272
+    // image_url: "https://www.opentable.com/img/restimages/116272.jpg"
+    // lat: 41.462926
+    // lng: -81.470595
+    // mobile_reserve_url: "http://mobile.opentable.com/opentable/?restId=116272"
+    // name: "XO Prime Steaks Pepper Pike"
+    // phone: "2163788988x"
+    // postal_code: "44122"
+    // price: 3
+    // reserve_url: "http://www.opentable.com/single.aspx?rid=116272"
+    // city: "OH"
 
-    // load data from server
+    // filter data for flatlist
+    const filterData = (word) => {
+        const tempData = cities.filter((item) => item.toLowerCase().includes(word.toLowerCase()));
+        setFilteredCities(tempData);
+    }
+
+
+    // create cities Set
+    const createCitySet = (datta) => {
+        const tempCityList = [];
+        datta.forEach(element => {
+            tempCityList.includes(element.city) ? null : tempCityList.push(element.city);
+        });
+        tempCityList.sort();
+        setCities(tempCityList);
+        setFilteredCities(tempCityList);
+    }
+
+
+    // in the opening load data from server
     useEffect(() => {
         const getData = async () => {
-            const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
-            setMyData(response.data);
-            setFilteredData(response.data);
+            const response = await axios.get('https://opentable.herokuapp.com/api/restaurants?country=US&per_page=100');
+            setMyData(response.data.restaurants);
+            createCitySet(response.data.restaurants);
             setIsLoading(false);
         }
         getData();
     }, [])
 
-    // set filtered data for flatlist
-    const filterData = (word) => {
-        const tempData = myData.filter((item) => item.userId.toString().includes(word));
-        setFilteredData(tempData);
-    }
-
-    // call the page for selected city
+    // go to page for selected city
     const goPageSelected = (item) => {
-        const selectedStores = myData.filter((i) => i.userId == item.userId)
+        const selectedStores = myData.filter((i) => i.city == item)
         navigation.navigate("Stores", {storData: selectedStores} );
     }
 
@@ -49,19 +72,18 @@ const Cities = ({navigation}) => {
     const renderList = ({ item }) => {
         return (
             <TouchableOpacity 
-                style={{ margin: 3, backgroundColor: '#fff' }}
+                style={styles.cityContainer}
                 onPress={() => goPageSelected(item)}
             >
-                <Text style={{ textAlign: "center", color: '#ccc' }}>{item.userId}</Text>
+                <Text style={styles.text}>{item}</Text>
             </TouchableOpacity>
         )
     }
 
 
-
     return (
 
-        <View style={{ flex: 1}}>
+        <View style={styles.container}>
             {
                 isLoading ?
                     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -69,10 +91,10 @@ const Cities = ({navigation}) => {
                     </View>
                     :
                     <View style={{ flex: 1}}>
-                        <Text style={{ padding: 10, fontSize: 20, fontWeight: "bold" }}>Select a city</Text>
+                        <Text style={styles.head}>Cities</Text>
                         <InputBar textIn={filterData} />
                         <FlatList
-                            data={filteredData}
+                            data={filteredCities}
                             keyExtractor={(item, index) => index.toString()}
                             renderItem={renderList}
                         />
@@ -83,3 +105,29 @@ const Cities = ({navigation}) => {
 };
 
 export { Cities };
+
+const styles = StyleSheet.create({
+    head: {
+        padding: 10, 
+        fontSize: 30, 
+        fontWeight: "bold",
+        textAlign: "center",
+        color: '#f9f7cf'
+    },
+    container: {
+        flex: 1, 
+        backgroundColor: '#ec5858' 
+    },
+    text: {
+        fontSize:20, 
+        textAlign: "center", 
+        color: '#333' 
+    },
+    cityContainer : {
+        borderRadius:10, 
+        margin: 5, 
+        padding:10,
+        marginHorizontal: 20,
+        backgroundColor: '#f9f7cf' 
+    }
+})
