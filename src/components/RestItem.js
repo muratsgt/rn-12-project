@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 
 const RestItem = ({item, onClick}) => {
     return (
@@ -17,20 +17,19 @@ export {RestItem};
 
 const styles = StyleSheet.create({
     container: {
-        margin: 10, 
-        backgroundColor: '#f5b461',
-        // padding: 10,
-        borderRadius: 10,
+        margin: 10,
+        backgroundColor: '#ddd',
+        borderRadius: 5,
+        padding: 5
     },
     image: {
-        height: Dimensions.get('window').height * 0.20,
-        borderRadius: 10,
+        height: Dimensions.get('window').height * 0.25,
     },
     title: {
-        fontSize: 20, 
+        fontSize: 22, 
         padding: 10,
         textAlign: "center",
-        fontWeight: "bold"
+        fontWeight: "300"
     }
 
 })

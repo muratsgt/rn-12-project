@@ -1,5 +1,5 @@
 import React from 'react';
-import {Linking, View, Text, Button, Image, StyleSheet, Dimensions } from 'react-native';
+import { Linking, View, Text, Button, Image, StyleSheet, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 
@@ -28,27 +28,44 @@ const Restaurant = ({ route, navigation }) => {
         <View style={styles.container}>
             <Image style={styles.image} source={{ uri: restData.image_url }} />
             <Text style={styles.heading}>{restData.name}</Text>
-            <Icon.Button
-                name="map-marker"
-                backgroundColor="#3b5998"
-                onPress={()=>null}
-            >
-                {restData.area}
-            </Icon.Button>
-            <Icon.Button
-                name="home"
-                backgroundColor="#3b5998"
-                onPress={()=>Linking.openURL(`geo:${restData.lat},${restData.lng}`)}
-            >
-                {restData.address}
-            </Icon.Button>
-            <Icon.Button
-                name="phone"
-                backgroundColor="#3b5998"
-                onPress={()=>Linking.openURL(`tel:${restData.phone}`)}
-            >
-                {restData.phone}
-            </Icon.Button>
+            <View style={styles.buttonCont}>
+
+                <Icon.Button
+                    name="map-marker"
+                    backgroundColor="darkgreen"
+                    onPress={() => null}
+                >
+                    {restData.area}
+                </Icon.Button>
+            </View>
+
+            <View style={styles.buttonCont}>
+
+                <Icon.Button
+                    name="home"
+                    backgroundColor="darkolivegreen"
+                    onPress={() => Linking.openURL(`geo:${restData.lat},${restData.lng}`)}
+                >
+                    {restData.address}
+                </Icon.Button>
+            </View>
+
+            <View style={styles.buttonCont}>
+                <Icon.Button
+                    name="phone"
+                    backgroundColor="seagreen"
+                    onPress={() => Linking.openURL(`tel:${restData.phone}`)}
+                >
+                    {restData.phone}
+                </Icon.Button>
+            </View>
+
+            <View style={styles.buttonCont}>
+                <Button
+                    title="Make Reservation"
+                    onPress={() => Linking.openURL(restData.reserve_url)}
+                />
+            </View>
 
         </View>
     )
@@ -75,11 +92,10 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         textAlign: "center",
         paddingVertical: 10,
+        fontStyle: "italic"
     },
-    desc: {
-        fontSize: 20,
-        fontStyle: "italic",
+    buttonCont: {
+        padding: 10,
         paddingHorizontal: 20,
-        paddingVertical: 5,
     }
 })

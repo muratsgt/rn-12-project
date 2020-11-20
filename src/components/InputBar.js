@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import {Text, TextInput, View, StyleSheet} from 'react-native';
+import React from 'react';
+import {TextInput, View, StyleSheet} from 'react-native';
 
 const InputBar = (props) => {
 
@@ -23,7 +23,7 @@ const InputBar = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#eee',
+        backgroundColor: '#ddd',
         paddingHorizontal: 10,
         margin: 10,
         borderRadius: 10,
